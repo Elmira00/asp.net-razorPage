@@ -1,0 +1,68 @@
+﻿@page
+@model asp.net_razorPage.Pages.FoodModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+@if (Model.Food != null)
+{
+    <input asp-for="Food.Name" class="form-control" />
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Image</th>
+            <th scope="col">Id</th>
+            <th scope="col">Name</th>
+            <th scope="col">Price</th>
+            <th scope="col">Description</th>
+            <th scope="col">#</th>
+            <th scope="col">#</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var item in Model.Foods)
+        {
+            <tr>
+                <td scope="row"><img style="width:50px;height:50px" src="@item.ImagePath" alt="img" /></td>
+                <td scope="row">@item.Id</td>
+                <td scope="row">@item.Name</td>
+                <td scope="row">@item.Price</td>
+                <td scope="row">@item.Description</td>
+                <td scope="row">
+                    <form method="post">
+                        <button type="submit" asp-page-handler="Edit" asp-route-id="@item.Id" class="btn btn-outline-info">Edit</button>
+                    </form>
+                </td>
+                <td scope="row">
+                    <form method="post">
+                        <button type="submit" asp-page-handler="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger">Delete</button>
+                    </form>
+                </td>
+                
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+<form class="col-5" method="post">
+    <div class="mb-3">
+        <label class="form-label">Food Name</label>
+        <input asp-for="Food.Name" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Food Price</label>
+        <input asp-for="Food.Price" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Food Description</label>
+        <input asp-for="Food.Description" class="form-control" />
+    </div>
+     <div class="mb-3">
+        <label class="form-label">Food Image Path Link</label>
+        <input asp-for="Food.ImagePath" class="form-control" />
+    </div>
+
+    <button type="submit" asp-page-handler="@(Model.IsEditing ? "Update" : "Add")" class="btn btn-success">@Model.IsEditing ? "Update" : "Add New Food"</button>
+</form>
